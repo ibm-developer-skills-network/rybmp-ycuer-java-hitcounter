@@ -30,4 +30,14 @@ public class HitCounterService {
         hits += 1;
         return new HitCount(hits);
     }
+    
+    /**
+     * Resets the hit counter to a specific value
+     * This is primarily used for testing
+     * 
+     * @param value The value to reset the counter to
+     */
+    public void resetHits(Integer value) {
+        hits = value;
+    }
 }

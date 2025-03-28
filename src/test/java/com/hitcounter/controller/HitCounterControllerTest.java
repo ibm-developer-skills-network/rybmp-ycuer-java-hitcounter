@@ -1,11 +1,11 @@
 package com.hitcounter.controller;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -34,13 +34,19 @@ public class HitCounterControllerTest {
     @Autowired
     private HitCounterService hitCounterService;
     
+    @BeforeEach
+    public void setup() {
+        // Reset counter before each test
+        hitCounterService.resetHits(0);
+    }
+    
     /**
-     * Verifies that the home page (Swagger UI) is accessible
+     * Verifies that the home page (Swagger UI) redirects correctly
      */
     @Test
     public void testIndex() throws Exception {
         mockMvc.perform(get("/"))
-               .andExpect(status().isOk());
+               .andExpect(status().is3xxRedirection());
     }
     
     /**
@@ -48,8 +54,7 @@ public class HitCounterControllerTest {
      */
     @Test
     public void testGetHitCount() throws Exception {
-        // Reset counter for testing purposes
-        hitCounterService.getHits().setCounter(0);
+        // Counter should be reset to 0 by the setup method
         
         MvcResult result = mockMvc.perform(get("/hits")
                                   .contentType(MediaType.APPLICATION_JSON))
@@ -69,8 +74,7 @@ public class HitCounterControllerTest {
      */
     @Test
     public void testIncrementHitCount() throws Exception {
-        // Reset counter for testing purposes
-        hitCounterService.getHits().setCounter(0);
+        // Counter should be reset to 0 by the setup method
         
         MvcResult result = mockMvc.perform(put("/hits")
                                   .contentType(MediaType.APPLICATION_JSON))

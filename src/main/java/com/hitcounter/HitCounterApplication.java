@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HitcounterApplication {
+public class HitCounterApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HitcounterApplication.class, args);
+		SpringApplication.run(HitCounterApplication.class, args);
 	}
 
 }
